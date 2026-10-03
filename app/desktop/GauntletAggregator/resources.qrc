@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/hexapod.png</file>
+        <file>icons/led_strip.png</file>
+        <file>icons/greenhouse.png</file>
+        <file>icons/modbus_poll.png</file>
+    </qresource>
+</RCC>

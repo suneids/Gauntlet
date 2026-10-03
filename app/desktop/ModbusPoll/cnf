@@ -1,0 +1,20 @@
+{
+    "connection": {
+        "baud": 9600,
+        "dataBits": 8,
+        "parity": "None",
+        "port": "/dev/ttyUSB2",
+        "slave": 1,
+        "stopBits": 1
+    },
+    "poll": {
+        "periodMs": 500,
+        "registerCount": 40,
+        "startAddress": 0
+    },
+    "registerNames": {
+        "0": "MV_OUT",
+        "1": "MV_SENS\t"
+    },
+    "version": 1
+}
