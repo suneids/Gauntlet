@@ -32,7 +32,7 @@ private:
     QHash<QLocalSocket*, QString> appNames;
 
     QString currentApp;
-
+    bool isHide=0;
     void onNewConnection();
     void onClientReadyRead(QLocalSocket *socket);
 
@@ -43,6 +43,8 @@ private:
 
     void selectApp(const QString &app);
     void updateSelectedButton();
+    void pdatePanelGeometry();
+    void toggleAggregator();
 
 };
 #endif // MAINWINDOW_H

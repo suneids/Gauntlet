@@ -3,34 +3,34 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QJsonDocument>
-#include <QJsonObject>>
+#include <QJsonObject>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
+#include <X11/keysym.h>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    setWindowFlags(
-        Qt::FramelessWindowHint |
-        Qt::WindowStaysOnTopHint
-        );
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
     QScreen *screen = QGuiApplication::primaryScreen();
 
-    if(screen)
-    {
-        QRect r = screen->geometry();
+    if (screen) {
+        auto updateGeometry = [this](const QRect &r) {
+            constexpr int PANEL_HEIGHT = 64;
 
-        constexpr int PANEL_HEIGHT = 64;
+            setGeometry(
+                r.x(),
+                r.bottom() - PANEL_HEIGHT + 1,
+                r.width(),
+                PANEL_HEIGHT
+                );
+        };
 
-        setGeometry(
-            r.x(),
-            r.bottom() - PANEL_HEIGHT + 1,
-            r.width(),
-            PANEL_HEIGHT
-            );
+        connect(screen, &QScreen::geometryChanged,
+                this, updateGeometry);
+
+        updateGeometry(screen->geometry());
     }
 
     // Принудительно создаём native X11 window.
@@ -43,8 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     if(!server.listen("aggregator"))
     {
-        qDebug() << "Aggregator listen error:"
-                 << server.errorString();
+        qDebug() << "Aggregator listen error:" << server.errorString();
     }
 
     connect(ui->btn_greenhouse,&QPushButton::clicked, this, [this]()
@@ -71,13 +70,35 @@ MainWindow::MainWindow(QWidget *parent)
         }
     );
 
+    connect(ui->btn_terminal_matrix, &QPushButton::clicked, this, [this]()
+        {
+            selectApp("terminal_matrix");
+        }
+    );
+
+    connect(ui->btn_time_tracker, &QPushButton::clicked, this, [this]()
+        {
+            selectApp("time_tracker");
+        }
+    );
+
+    connect(ui->btn_hide, &QPushButton::clicked, this, [this]()
+        {
+            toggleAggregator();
+        }
+    );
+
     ui->btn_greenhouse->setIcon(QIcon("://icons/greenhouse.png"));
     ui->btn_hexapod->setIcon(QIcon("://icons/hexapod.png"));
     ui->btn_led->setIcon(QIcon("://icons/led_strip.png"));
     ui->btn_modbus_poll->setIcon(QIcon("://icons/modbus_poll.png"));
-
-    QPushButton *icon_buttons[4] = {ui->btn_greenhouse, ui->btn_hexapod, ui->btn_led,  ui->btn_modbus_poll};
-    for(int i = 0; i < 4; i++){
+    ui->btn_terminal_matrix->setIcon(QIcon("://icons/terminal.png"));
+    ui->btn_time_tracker->setIcon(QIcon("://icons/time_tracker.png"));
+    ui->btn_hide->setIcon(QIcon("://icons/hide.png"));
+    const int app_count = 7;
+    QPushButton *icon_buttons[app_count] = {ui->btn_greenhouse, ui->btn_hexapod, ui->btn_led,
+                                            ui->btn_modbus_poll, ui->btn_terminal_matrix, ui->btn_time_tracker, ui->btn_hide};
+    for(int i = 0; i < app_count; i++){
         icon_buttons[i]->setFlat(true);
         icon_buttons[i]->setFixedSize(48, 48);
         icon_buttons[i]->setIconSize(QSize(32, 32));
@@ -109,6 +130,50 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
+
+void MainWindow::toggleAggregator()
+{
+    isHide = !isHide;
+
+    if (isHide)
+    {
+        ui->btn_hide->setIcon(QIcon("://icons/show.png"));
+
+        // Оставляем видимой только область кнопки
+        QRect rect(
+            ui->btn_hide->mapTo(this, QPoint(0, 0)),
+            ui->btn_hide->size()
+            );
+
+        setMask(QRegion(rect));
+
+        // Убираем резервирование 64 пикселей в X11
+        Display *display = XOpenDisplay(nullptr);
+        if (display)
+        {
+            Window window = static_cast<Window>(winId());
+
+            XDeleteProperty(display, window,
+                            XInternAtom(display, "_NET_WM_STRUT", False));
+
+            XDeleteProperty(display, window,
+                            XInternAtom(display, "_NET_WM_STRUT_PARTIAL", False));
+
+            XFlush(display);
+            XCloseDisplay(display);
+        }
+    }
+    else
+    {
+        ui->btn_hide->setIcon(QIcon("://icons/hide.png"));
+
+        // Возвращаем всю панель
+        clearMask();
+
+        // Возвращаем резервирование места
+        applyDockProperties();
+    }
+}
 
 void MainWindow::applyDockProperties()
 {
@@ -195,9 +260,7 @@ void MainWindow::onNewConnection(){
 
         connect(socket, &QLocalSocket::disconnected, this, [this, socket]()
             {
-                qDebug()
-                    << "Disconnected:"
-                    << appNames.value(socket);
+                if(appNames.value(socket).length() > 0) qDebug() << "Disconnected:" << appNames.value(socket);
 
                 clients.remove(socket);
                 buffers.remove(socket);
@@ -236,9 +299,23 @@ void MainWindow::onClientReadyRead(QLocalSocket *socket){
 
             appNames[socket] = app;
 
-            qDebug()
-                << "Registered:"
-                << app;
+            qDebug() << "Registered:" << app;
+        }
+        else if (type == "toggle_terminal")
+        {
+            selectApp("terminal_matrix");
+
+            QJsonObject reply;
+            reply["type"] = "ack";
+
+            QByteArray data =
+                QJsonDocument(reply)
+                    .toJson(QJsonDocument::Compact);
+
+            data += '\n';
+
+            socket->write(data);
+            socket->flush();
         }
     }
 }

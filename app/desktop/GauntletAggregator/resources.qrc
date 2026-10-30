@@ -4,5 +4,9 @@
         <file>icons/led_strip.png</file>
         <file>icons/greenhouse.png</file>
         <file>icons/modbus_poll.png</file>
+        <file>icons/terminal.png</file>
+        <file>icons/time_tracker.png</file>
+        <file>icons/show.png</file>
+        <file>icons/hide.png</file>
     </qresource>
 </RCC>
