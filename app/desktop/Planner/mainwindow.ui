@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>753</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QMainWindow {
+    background-color: #0B0F14;
+}
+
+QWidget {
+    background-color: #0B0F14;
+    color: #D7E2EA;
+    font-family: &quot;Segoe UI&quot;;
+    font-size: 14px;
+}
+
+QFrame {
+    background-color: #111821;
+    border: 1px solid #223040;
+    border-radius: 12px;
+}
+
+QLabel {
+    color: #D7E2EA;
+    background: transparent;
+    border: none;
+}
+
+QPushButton {
+    background-color: #182331;
+    color: #D7E2EA;
+    border: 1px solid #2C4054;
+    border-radius: 8px;
+    padding: 8px 14px;
+}
+
+QPushButton:hover {
+    background-color: #203044;
+    border: 1px solid #00B7C7;
+}
+
+QPushButton:pressed {
+    background-color: #0E5660;
+    border: 1px solid #00E5FF;
+}
+
+QPushButton:disabled {
+    background-color: #121820;
+    color: #5A6570;
+    border: 1px solid #202A35;
+}
+
+QComboBox, QSpinBox, QSlider, QPlainTextEdit {
+    background-color: #0E141B;
+    color: #D7E2EA;
+    border: 1px solid #2C4054;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+QPlainTextEdit {
+    font-family: &quot;Consolas&quot;;
+    font-size: 13px;
+}
+
+QCheckBox {
+    spacing: 8px;
+    background: transparent;
+}
+
+QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid #2C4054;
+    background-color: #0E141B;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #00B7C7;
+    border: 1px solid #00E5FF;
+}
+
+QSlider::groove:horizontal {
+    height: 6px;
+    background: #1A2532;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal {
+    background: #00B7C7;
+    width: 16px;
+    margin: -5px 0;
+    border-radius: 8px;
+}
+
+QSlider::sub-page:horizontal {
+    background: #00B7C7;
+    border-radius: 3px;
+}
+
+QTableWidget {
+    background-color: #0E141B;
+    color: #D7E2EA;
+    gridline-color: #223040;
+    border: 1px solid #2C4054;
+    border-radius: 8px;
+    selection-background-color: #0E5660;
+    selection-color: #FFFFFF;
+}
+
+QTableWidget::item {
+    background-color: #0E141B;
+    color: #D7E2EA;
+    padding: 4px;
+}
+
+QTableWidget::item:selected {
+    background-color: #0E5660;
+    color: #FFFFFF;
+}
+
+QHeaderView {
+    background-color: #111821;
+    color: #D7E2EA;
+}
+
+QHeaderView::section {
+    background-color: #111821;
+    color: #D7E2EA;
+    border: 1px solid #223040;
+    padding: 5px;
+}
+
+QTableCornerButton::section {
+    background-color: #111821;
+    border: 1px solid #223040;
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="topMargin">
+     <number>5</number>
+    </property>
+    <item>
+     <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0">
+      <item row="1" column="1">
+       <widget class="QComboBox" name="combo_scope">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <item>
+         <property name="text">
+          <string>Я</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Комната</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <widget class="QPushButton" name="btn_maximize">
+        <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>□</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lbl_section_desc">
+        <property name="text">
+         <string>Секция:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="QPushButton" name="btn_close">
+        <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>×</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="combo_page">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="5">
+       <widget class="QPushButton" name="btn_minimize">
+        <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="lbl_page_desc">
+        <property name="text">
+         <string>Страница:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stwidget_section">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>-1</pointsize>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="pg_log">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="6" column="0">
+         <widget class="QPushButton" name="btn_log_clear">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>34</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QCheckBox" name="btn_log_raw_hex">
+          <property name="text">
+           <string>Log Raw HEX</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QPlainTextEdit" name="txt_log"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QCheckBox" name="chkb_log_tx_packets">
+          <property name="text">
+           <string>Log TX Packets</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="chkb_log_rx_packets">
+          <property name="text">
+           <string>Log RX Packets</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="btn_log_save">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>34</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

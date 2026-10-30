@@ -46,47 +46,20 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         qDebug() << "Aggregator listen error:" << server.errorString();
     }
 
-    connect(ui->btn_greenhouse,&QPushButton::clicked, this, [this]()
-        {
-            selectApp("greenhouse");
-        }
-    );
+    connect(ui->btn_greenhouse,&QPushButton::clicked, this, [this](){ selectApp("greenhouse"); });
 
-    connect(ui->btn_led, &QPushButton::clicked, this, [this]()
-        {
-            selectApp("led");
-        }
-    );
+    connect(ui->btn_led, &QPushButton::clicked, this, [this](){ selectApp("led"); });
 
-    connect(ui->btn_hexapod, &QPushButton::clicked, this, [this]()
-        {
-            selectApp("hexapod");
-        }
-    );
+    connect(ui->btn_hexapod, &QPushButton::clicked, this, [this](){ selectApp("hexapod"); });
 
-    connect(ui->btn_modbus_poll, &QPushButton::clicked, this, [this]()
-        {
-            selectApp("modbus_poll");
-        }
-    );
+    connect(ui->btn_modbus_poll, &QPushButton::clicked, this, [this](){ selectApp("modbus_poll"); });
 
-    connect(ui->btn_terminal_matrix, &QPushButton::clicked, this, [this]()
-        {
-            selectApp("terminal_matrix");
-        }
-    );
+    connect(ui->btn_terminal_matrix, &QPushButton::clicked, this, [this](){ selectApp("terminal_matrix"); });
 
-    connect(ui->btn_time_tracker, &QPushButton::clicked, this, [this]()
-        {
-            selectApp("time_tracker");
-        }
-    );
+    connect(ui->btn_time_tracker, &QPushButton::clicked, this, [this](){ selectApp("time_tracker"); });
+    connect(ui->btn_planner, &QPushButton::clicked, this, [this](){ selectApp("planner"); });
 
-    connect(ui->btn_hide, &QPushButton::clicked, this, [this]()
-        {
-            toggleAggregator();
-        }
-    );
+    connect(ui->btn_hide, &QPushButton::clicked, this, [this](){ toggleAggregator(); });
 
     ui->btn_greenhouse->setIcon(QIcon("://icons/greenhouse.png"));
     ui->btn_hexapod->setIcon(QIcon("://icons/hexapod.png"));
@@ -94,10 +67,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->btn_modbus_poll->setIcon(QIcon("://icons/modbus_poll.png"));
     ui->btn_terminal_matrix->setIcon(QIcon("://icons/terminal.png"));
     ui->btn_time_tracker->setIcon(QIcon("://icons/time_tracker.png"));
+    ui->btn_planner->setIcon(QIcon("://icons/planner.png"));
     ui->btn_hide->setIcon(QIcon("://icons/hide.png"));
-    const int app_count = 7;
-    QPushButton *icon_buttons[app_count] = {ui->btn_greenhouse, ui->btn_hexapod, ui->btn_led,
-                                            ui->btn_modbus_poll, ui->btn_terminal_matrix, ui->btn_time_tracker, ui->btn_hide};
+
+    const int app_count = 8;
+    QPushButton *icon_buttons[app_count] = { ui->btn_greenhouse, ui->btn_hexapod, ui->btn_led,ui->btn_modbus_poll, ui->btn_terminal_matrix,
+                                             ui->btn_time_tracker, ui->btn_hide, ui->btn_planner };
     for(int i = 0; i < app_count; i++){
         icon_buttons[i]->setFlat(true);
         icon_buttons[i]->setFixedSize(48, 48);

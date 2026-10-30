@@ -8,5 +8,6 @@
         <file>icons/time_tracker.png</file>
         <file>icons/show.png</file>
         <file>icons/hide.png</file>
+        <file>icons/planner.png</file>
     </qresource>
 </RCC>
